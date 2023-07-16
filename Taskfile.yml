@@ -1,0 +1,20 @@
+version: "3"
+
+tasks:
+  install-deps:
+    cmds:
+      - go install github.com/swaggo/swag/cmd/swag@latest
+      - go install github.com/golang/mock/mockgen@latest
+
+  gen:code:
+    cmds:
+      - go generate ./...
+      - swag init --parseInternal --parseDepth 0 -o ./api
+
+  build:
+    cmds:
+      - go build -ldflags="-w -s" -o bin/jusbrasil_process-finder.exe .
+
+  clean:
+    cmds:
+      - rm bin/*
