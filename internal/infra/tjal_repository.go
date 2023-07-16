@@ -3,7 +3,6 @@ package infra
 import (
 	"bytes"
 	"strings"
-	"time"
 
 	"github.com/PuerkitoBio/goquery"
 
@@ -13,18 +12,11 @@ import (
 
 type TJALRepository struct {
 	datasource RequestDatasource
+	commonRepository
 }
 
 func NewTJALRepository(datasource RequestDatasource) TJALRepository {
 	return TJALRepository{datasource: datasource}
-}
-
-func (repo TJALRepository) parseDistributionDate(element *goquery.Selection) (time.Time, error) {
-	if element == nil {
-		return time.Time{}, nil
-	}
-
-	return utils.ParseBRTDateTime(element.Text())
 }
 
 func (repo TJALRepository) parseMoneyValue(element *goquery.Selection) float64 {
@@ -37,7 +29,7 @@ func (repo TJALRepository) parseMoneyValue(element *goquery.Selection) float64 {
 
 func (repo TJALRepository) FindFirstInstance() (result entities.JudicialProcess, err error) {
 	var body []byte
-	if body, err = repo.datasource.DoRequest(); err != nil {
+	if body, err = repo.datasource.SearchFirstInstance(); err != nil {
 		return
 	}
 
@@ -49,9 +41,9 @@ func (repo TJALRepository) FindFirstInstance() (result entities.JudicialProcess,
 
 	mainProcessDataSelector := htmlDocument.Find("#containerDadosPrincipaisProcesso")
 	if mainProcessDataSelector != nil {
-		result.Class = repo.FindProcessClass(mainProcessDataSelector)
-		result.Subject = mainProcessDataSelector.Find("#assuntoProcesso").Text()
-		result.Judge = mainProcessDataSelector.Find("#juizProcesso").Text()
+		result.Class = repo.findProcessClass(mainProcessDataSelector)
+		result.Subject = repo.findProcessSubject(mainProcessDataSelector)
+		result.Judge = repo.findProcessJudge(mainProcessDataSelector)
 	}
 
 	moreDetailsDataSelector := htmlDocument.Find("#maisDetalhes")
@@ -76,14 +68,6 @@ func (repo TJALRepository) FindFirstInstance() (result entities.JudicialProcess,
 	}
 
 	return
-}
-
-func (repo TJALRepository) FindProcessClass(htmlDocument *goquery.Selection) string {
-	classSelector := htmlDocument.Find("#classeProcesso")
-	if classSelector == nil {
-		return ""
-	}
-	return classSelector.Text()
 }
 
 func (repo TJALRepository) parseTableProcessParts(

@@ -71,7 +71,7 @@ var firstInstanceExpected = entities.JudicialProcess{
 func TestTJALRepository_FirstInstance(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	datasourceMock := mocks.NewMockRequestDatasource(mockCtrl)
-	datasourceMock.EXPECT().DoRequest().Return(firstInstanceBody, nil).Times(1)
+	datasourceMock.EXPECT().SearchFirstInstance().Return(firstInstanceBody, nil).Times(1)
 
 	repo := TJALRepository{datasource: datasourceMock}
 	result, err := repo.FindFirstInstance()
@@ -81,7 +81,7 @@ func TestTJALRepository_FirstInstance(t *testing.T) {
 
 	if !reflect.DeepEqual(result, firstInstanceExpected) {
 		t.Errorf(
-			"Parsed process is not the same as expected\nReceived: `%v`\nExpected: `%v`",
+			"Parsed process is not the same as expected\nReceived: `%+v`\nExpected: `%+v`",
 			result, firstInstanceExpected,
 		)
 	}

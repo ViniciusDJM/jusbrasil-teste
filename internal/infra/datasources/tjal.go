@@ -27,7 +27,7 @@ func (d TJAlagoasDatasource) buildCompleteURL() string {
 	return addQueryParamsToURL(tjalURL+"/cpopg/search.do", params)
 }
 
-func (d TJAlagoasDatasource) DoRequest() (respBody []byte, err error) {
+func (d TJAlagoasDatasource) SearchFirstInstance() (respBody []byte, err error) {
 	var req *http.Request
 	if req, err = http.NewRequest(http.MethodGet, d.buildCompleteURL(), nil); err != nil {
 		return

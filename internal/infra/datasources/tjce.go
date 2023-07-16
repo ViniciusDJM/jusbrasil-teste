@@ -21,7 +21,7 @@ func (d TJCearaDatasource) buildCompleteURL() string {
 	return addQueryParamsToURL(tjceURL+"/cpopg/show.do", params)
 }
 
-func (d TJCearaDatasource) DoRequest() (respBody []byte, err error) {
+func (d TJCearaDatasource) SearchFirstInstance() (respBody []byte, err error) {
 	var req *http.Request
 	if req, err = http.NewRequest(http.MethodGet, d.buildCompleteURL(), nil); err != nil {
 		return

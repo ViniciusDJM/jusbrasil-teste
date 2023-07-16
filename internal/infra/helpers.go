@@ -10,7 +10,7 @@ import (
 //go:generate mockgen -destination=../mocks/datasources_mock.go -package=mocks github.com/ViniciusDJM/jusbrasil-teste/internal/infra RequestDatasource
 
 type RequestDatasource interface {
-	DoRequest() ([]byte, error)
+	SearchFirstInstance() ([]byte, error)
 }
 
 func NodeToStringSlice(originalNode *html.Node) (result string) {

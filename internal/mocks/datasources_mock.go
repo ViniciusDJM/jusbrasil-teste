@@ -33,17 +33,17 @@ func (m *MockRequestDatasource) EXPECT() *MockRequestDatasourceMockRecorder {
 	return m.recorder
 }
 
-// DoRequest mocks base method.
-func (m *MockRequestDatasource) DoRequest() ([]byte, error) {
+// SearchFirstInstance mocks base method.
+func (m *MockRequestDatasource) SearchFirstInstance() ([]byte, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DoRequest")
+	ret := m.ctrl.Call(m, "SearchFirstInstance")
 	ret0, _ := ret[0].([]byte)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// DoRequest indicates an expected call of DoRequest.
-func (mr *MockRequestDatasourceMockRecorder) DoRequest() *gomock.Call {
+// SearchFirstInstance indicates an expected call of SearchFirstInstance.
+func (mr *MockRequestDatasourceMockRecorder) SearchFirstInstance() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DoRequest", reflect.TypeOf((*MockRequestDatasource)(nil).DoRequest))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchFirstInstance", reflect.TypeOf((*MockRequestDatasource)(nil).SearchFirstInstance))
 }
