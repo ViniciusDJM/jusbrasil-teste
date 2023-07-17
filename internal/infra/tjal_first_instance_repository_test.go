@@ -13,7 +13,7 @@ import (
 )
 
 //go:embed test/fixtures/tjal_first_instance.html
-var firstInstanceBody []byte
+var firstInstanceSearchBody []byte
 
 var firstInstanceExpected = entities.JudicialProcess{
 	Class:            "Procedimento Comum Cível",
@@ -71,9 +71,12 @@ var firstInstanceExpected = entities.JudicialProcess{
 func TestTJALRepository_FirstInstance(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	datasourceMock := mocks.NewMockRequestDatasource(mockCtrl)
-	datasourceMock.EXPECT().SearchFirstInstance().Return(firstInstanceBody, nil).Times(1)
+	datasourceMock.EXPECT().
+		SearchFirstInstance(gomock.Any()).
+		Return(firstInstanceSearchBody, nil).
+		Times(1)
 
-	repo := TJALRepository{datasource: datasourceMock}
+	repo := NewTJALFirstRepository(datasourceMock)
 	result, err := repo.FindFirstInstance()
 	if err != nil {
 		t.Fatal(err)
