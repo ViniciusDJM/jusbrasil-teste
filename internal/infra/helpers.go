@@ -5,12 +5,15 @@ import (
 
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
+
+	"github.com/ViniciusDJM/jusbrasil-teste/internal/infra/datasources"
 )
 
 //go:generate mockgen -destination=../mocks/datasources_mock.go -package=mocks github.com/ViniciusDJM/jusbrasil-teste/internal/infra RequestDatasource
 
 type RequestDatasource interface {
-	SearchFirstInstance() ([]byte, error)
+	SearchFirstInstance(filter datasources.SearchFilter) ([]byte, error)
+	SearchSecondInstance(filter datasources.SearchFilter) ([]byte, error)
 }
 
 func NodeToStringSlice(originalNode *html.Node) (result string) {

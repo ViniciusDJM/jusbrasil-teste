@@ -3,7 +3,6 @@ package datasources
 import (
 	"errors"
 	"io"
-	"net/http"
 	"strings"
 )
 
@@ -12,34 +11,18 @@ var (
 	ErrInvalidStatus      = errors.New("the response status is not the same as expected")
 )
 
+type SearchFilter struct {
+	PageNumber         int
+	ProcessCode        string
+	ProcessNumber      string
+	UnifiedYearNumber  string
+	UnifiedCourtNumber string
+}
+
 type Writer interface {
 	WriteRune(r rune) (int, error)
 	WriteString(string) (int, error)
 	io.Writer
-}
-
-func checkHTMLContentType(res *http.Response, body []byte) (err error) {
-	contextType := res.Header.Get("Context-Type")
-	contentA, _, _ := strings.Cut(contextType, ";")
-	if strings.TrimSpace(contentA) != "text/html" {
-		contextType = http.DetectContentType(body)
-		contentA, _, _ = strings.Cut(contextType, ";")
-		if contentA != "text/html" {
-			err = ErrInvalidContentType
-		}
-	}
-	return
-}
-
-func checkStatus(status int, oneOf ...int) (err error) {
-	for _, toCheck := range oneOf {
-		if status == toCheck {
-			return
-		}
-	}
-
-	err = ErrInvalidStatus
-	return
 }
 
 func writeParamSlice(writer Writer, key string, slice []string) {
