@@ -8,6 +8,7 @@ require (
 	github.com/gofiber/swagger v0.1.12
 	github.com/golang/mock v1.6.0
 	github.com/swaggo/swag v1.16.1
+	golang.org/x/exp v0.0.0-20230713183714-613f0c0eb8a1
 	golang.org/x/net v0.8.0
 )
 
