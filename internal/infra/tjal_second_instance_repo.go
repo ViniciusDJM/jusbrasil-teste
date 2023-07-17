@@ -97,7 +97,9 @@ func (repo TJALSecondRepository) parseModalRadio(
 	return
 }
 
-func (repo TJALSecondRepository) FindSecondInstance() (result entities.JudicialProcess, err error) {
+func (repo TJALSecondRepository) FindSecondInstance(
+	cnj entities.CNJ,
+) (result entities.JudicialProcess, err error) {
 	var body []byte
 	if body, err = repo.datasource.SearchSecondInstance(datasources.SearchFilter{}); err != nil {
 		return

@@ -35,16 +35,16 @@ func (m *MockTJALRepository) EXPECT() *MockTJALRepositoryMockRecorder {
 }
 
 // FindFirstInstance mocks base method.
-func (m *MockTJALRepository) FindFirstInstance() (entities.JudicialProcess, error) {
+func (m *MockTJALRepository) FindFirstInstance(arg0 entities.CNJ) (entities.JudicialProcess, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindFirstInstance")
+	ret := m.ctrl.Call(m, "FindFirstInstance", arg0)
 	ret0, _ := ret[0].(entities.JudicialProcess)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindFirstInstance indicates an expected call of FindFirstInstance.
-func (mr *MockTJALRepositoryMockRecorder) FindFirstInstance() *gomock.Call {
+func (mr *MockTJALRepositoryMockRecorder) FindFirstInstance(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindFirstInstance", reflect.TypeOf((*MockTJALRepository)(nil).FindFirstInstance))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindFirstInstance", reflect.TypeOf((*MockTJALRepository)(nil).FindFirstInstance), arg0)
 }

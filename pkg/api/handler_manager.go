@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/gofiber/fiber/v2"
 
+	"github.com/ViniciusDJM/jusbrasil-teste/internal/entities"
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/infra"
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/infra/datasources"
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/interfaces"
@@ -29,7 +30,7 @@ func NewController() HandlerManager {
 //	@Success		200	{object}	entities.JudicialProcess
 //	@Router			/v1/first-instance [get]
 func (ctrl HandlerManager) FirstInstanceHandler(ctx *fiber.Ctx) error {
-	result, err := ctrl.tjalRepo.FindFirstInstance()
+	result, err := ctrl.tjalRepo.FindFirstInstance(entities.CNJ{})
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).
 			JSON(fiber.Map{"error": err.Error()})

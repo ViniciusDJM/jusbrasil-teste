@@ -38,9 +38,18 @@ func NewTJALFirstRepository(datasource RequestDatasource) (newRepo TJALFirstRepo
 	return
 }
 
-func (repo TJALFirstRepository) FindFirstInstance() (result entities.JudicialProcess, err error) {
-	var body []byte
-	if body, err = repo.datasource.SearchFirstInstance(datasources.SearchFilter{}); err != nil {
+func (repo TJALFirstRepository) FindFirstInstance(
+	cnj entities.CNJ,
+) (result entities.JudicialProcess, err error) {
+	var (
+		body   []byte
+		filter = datasources.SearchFilter{
+			ProcessNumber:      cnj.String(),
+			UnifiedYearNumber:  cnj.YearNumber(),
+			UnifiedCourtNumber: cnj.CourtNumber(),
+		}
+	)
+	if body, err = repo.datasource.SearchFirstInstance(filter); err != nil {
 		return
 	}
 
