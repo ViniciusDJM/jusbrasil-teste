@@ -15,6 +15,8 @@ type (
 		Kind PersonKind
 	}
 	ProcessParts struct {
+		Appellant []ProcessPeople
+		Appellee  []ProcessPeople
 		Author    []ProcessPeople
 		Defendant []ProcessPeople
 	}
