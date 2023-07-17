@@ -14,7 +14,7 @@ type HandlerManager struct {
 
 func NewController() HandlerManager {
 	return HandlerManager{
-		tjalRepo: infra.NewTJALRepository(datasources.TJAlagoasDatasource{}),
+		tjalRepo: infra.NewTJALFirstRepository(datasources.TJAlagoasDatasource{}),
 	}
 }
 
