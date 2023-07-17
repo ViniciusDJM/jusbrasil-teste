@@ -7,6 +7,7 @@ package mocks
 import (
 	reflect "reflect"
 
+	datasources "github.com/ViniciusDJM/jusbrasil-teste/internal/infra/datasources"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -34,16 +35,31 @@ func (m *MockRequestDatasource) EXPECT() *MockRequestDatasourceMockRecorder {
 }
 
 // SearchFirstInstance mocks base method.
-func (m *MockRequestDatasource) SearchFirstInstance() ([]byte, error) {
+func (m *MockRequestDatasource) SearchFirstInstance(arg0 datasources.SearchFilter) ([]byte, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SearchFirstInstance")
+	ret := m.ctrl.Call(m, "SearchFirstInstance", arg0)
 	ret0, _ := ret[0].([]byte)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SearchFirstInstance indicates an expected call of SearchFirstInstance.
-func (mr *MockRequestDatasourceMockRecorder) SearchFirstInstance() *gomock.Call {
+func (mr *MockRequestDatasourceMockRecorder) SearchFirstInstance(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchFirstInstance", reflect.TypeOf((*MockRequestDatasource)(nil).SearchFirstInstance))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchFirstInstance", reflect.TypeOf((*MockRequestDatasource)(nil).SearchFirstInstance), arg0)
+}
+
+// SearchSecondInstance mocks base method.
+func (m *MockRequestDatasource) SearchSecondInstance(arg0 datasources.SearchFilter) ([]byte, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SearchSecondInstance", arg0)
+	ret0, _ := ret[0].([]byte)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SearchSecondInstance indicates an expected call of SearchSecondInstance.
+func (mr *MockRequestDatasourceMockRecorder) SearchSecondInstance(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchSecondInstance", reflect.TypeOf((*MockRequestDatasource)(nil).SearchSecondInstance), arg0)
 }
