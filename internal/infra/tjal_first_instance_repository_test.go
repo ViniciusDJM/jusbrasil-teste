@@ -26,6 +26,7 @@ var firstInstanceExpected = entities.JudicialProcess{
 		Author: []entities.ProcessPeople{
 			{Name: "José Carlos Cerqueira Souza Filho", Kind: 0},
 			{Name: "Vinicius Faria de Cerqueira", Kind: 1},
+			{Name: "Livia Nascimento da Rocha", Kind: 0},
 		},
 		Defendant: []entities.ProcessPeople{
 			{Name: "Cony Engenharia Ltda.", Kind: 0},
@@ -33,6 +34,8 @@ var firstInstanceExpected = entities.JudicialProcess{
 			{Name: "Guilherme Freire Furtado", Kind: 1},
 			{Name: "Maria Eugênia Barreiros de Mello", Kind: 1},
 			{Name: "Vítor Reis de Araujo Carvalho", Kind: 1},
+			{Name: "Banco do Brasil S A", Kind: 0},
+			{Name: "Nelson Wilians Fratoni Rodrigues", Kind: 1},
 		},
 	},
 	MovementsList: []entities.Movement{
@@ -59,11 +62,23 @@ var firstInstanceExpected = entities.JudicialProcess{
 		},
 		{
 			Date:        time.Date(2023, time.May, 4, 0, 0, 0, 0, time.UTC),
-			Description: "Recebido pela Contadoria UNIFICADA\n",
+			Description: "Recebido pela Contadoria UNIFICADA",
 		},
 		{
 			Date:        time.Date(2023, time.May, 4, 0, 0, 0, 0, time.UTC),
 			Description: "Ato Ordinatório - Artigo 162, §4º, CPC\nAto Ordinatório- Remessa à contadoria",
+		},
+		{
+			Date:        time.Date(2023, time.May, 5, 0, 0, 0, 0, time.UTC),
+			Description: "Execução de Sentença Iniciada\nSeq.: 01 - Cumprimento de sentença",
+		},
+		{
+			Date:        time.Date(2023, time.May, 5, 0, 0, 0, 0, time.UTC),
+			Description: "Ato Publicado\nRelação: 0282/2023 Data da Publicação: 08/05/2023 Número do Diário: 3296",
+		},
+		{
+			Date:        time.Date(2023, time.May, 4, 0, 0, 0, 0, time.UTC),
+			Description: "Disponibilização no Diário da Justiça Eletrônico\nRelação: 0282/2023 Teor do ato: Autos n°: 0710802-55.2018.8.02.0001 Ação: Procedimento Comum Cível Autor: José Carlos Cerqueira Souza Filho e outro Réu: Cony Engenharia Ltda. e outro ATO ORDINATÓRIO Em cumprimento ao Provimento nº 15/2019, da Corregedoria-Geral da Justiça do Estado de Alagoas, em virtude do retorno dos autos da instância superior, manifestem-se as partes, em 15 (quinze) dias, requerendo o que de direito. Maceió, 04 de maio de 2023 Marcelo Rodrigo Falcão Vieira Analista(escrivão substituto) Advogados(s): Nelson Wilians Fratoni Rodrigues (OAB 9395A/AL), Carlos Henrique de Mendonça Brandão (OAB 6770/AL), Vinicius Faria de Cerqueira (OAB 9008/AL), Maria Eugênia Barreiros de Mello (OAB 14717/AL), Guilherme Freire Furtado (OAB 14781/AL), Vítor Reis de Araujo Carvalho (OAB 14928/AL)",
 		},
 	},
 }
@@ -77,7 +92,7 @@ func TestTJALRepository_FirstInstance(t *testing.T) {
 		Times(1)
 
 	repo := NewTJALFirstRepository(datasourceMock)
-	result, err := repo.FindFirstInstance()
+	result, err := repo.FindFirstInstance(entities.NewCNJ("0710802-55.2018.8.02.0001"))
 	if err != nil {
 		t.Fatal(err)
 	}
