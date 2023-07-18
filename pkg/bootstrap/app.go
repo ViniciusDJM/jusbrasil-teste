@@ -7,15 +7,9 @@ import (
 	"github.com/gofiber/swagger"
 
 	_ "github.com/ViniciusDJM/jusbrasil-teste/api"
-	"github.com/ViniciusDJM/jusbrasil-teste/pkg/api"
 )
 
 var initAt = time.Now()
-
-func registerRoutes(router fiber.Router) {
-	ctrl := api.NewController()
-	router.Get("/first-instance", ctrl.FirstInstanceHandler)
-}
 
 func SetupApp() *fiber.App {
 	app := fiber.New()
@@ -23,6 +17,7 @@ func SetupApp() *fiber.App {
 		return c.SendString("Server at since " + initAt.Format(time.DateTime))
 	})
 
+	globalMiddlewares(app)
 	app.Use("/api/swagger/*", swagger.HandlerDefault)
 	registerRoutes(app.Group("api/v1"))
 
