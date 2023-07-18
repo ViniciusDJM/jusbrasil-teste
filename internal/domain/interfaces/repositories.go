@@ -3,6 +3,6 @@ package interfaces
 import "github.com/ViniciusDJM/jusbrasil-teste/internal/entities"
 
 type ProcessRepository interface {
-	FindFirstInstance() (result entities.JudicialProcess, err error)
-	FindSecondInstance() (result entities.JudicialProcess, err error)
+	FindFirstInstance(entities.CNJ) (result entities.JudicialProcess, err error)
+	FindSecondInstance(entities.CNJ) (result entities.JudicialProcess, err error)
 }

@@ -2,7 +2,6 @@ package services
 
 import (
 	"errors"
-	"log"
 	"sync"
 
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/domain/interfaces"
@@ -13,29 +12,28 @@ type ProcessService struct {
 	repo interfaces.ProcessRepository
 }
 
-func NewProcessService() ProcessService {
-	return ProcessService{}
+func NewProcessService(repo interfaces.ProcessRepository) ProcessService {
+	return ProcessService{repo}
 }
 
-func (serv ProcessService) LoadProcess() {
+func (serv ProcessService) LoadProcess(cnj entities.CNJ) (result struct{ First, Second entities.JudicialProcess }, err error) {
 	var (
-		instanceReturns [2]entities.JudicialProcess
-		errorList       [2]error
-		wg              sync.WaitGroup
+		errorList [2]error
+		wg        sync.WaitGroup
 	)
 	wg.Add(2)
 
 	go func() {
 		defer wg.Done()
-		instanceReturns[0], errorList[0] = serv.repo.FindFirstInstance()
+		result.First, errorList[0] = serv.repo.FindFirstInstance(cnj)
 	}()
 
 	go func() {
 		defer wg.Done()
-		instanceReturns[1], errorList[1] = serv.repo.FindSecondInstance()
+		result.Second, errorList[1] = serv.repo.FindSecondInstance(cnj)
 	}()
 
 	wg.Wait()
-	err := errors.Join(errorList[0], errorList[1])
-	log.Println(instanceReturns, err)
+	err = errors.Join(errorList[0], errorList[1])
+	return
 }
