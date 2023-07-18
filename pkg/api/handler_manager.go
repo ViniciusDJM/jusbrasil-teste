@@ -3,23 +3,22 @@ package api
 import (
 	"github.com/gofiber/fiber/v2"
 
+	"github.com/ViniciusDJM/jusbrasil-teste/internal/domain/interfaces"
+	"github.com/ViniciusDJM/jusbrasil-teste/internal/domain/services"
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/entities"
-	"github.com/ViniciusDJM/jusbrasil-teste/internal/infra"
-	"github.com/ViniciusDJM/jusbrasil-teste/internal/infra/datasources"
-	"github.com/ViniciusDJM/jusbrasil-teste/internal/interfaces"
 )
 
 type HandlerManager struct {
-	tjalRepo interfaces.TJALRepository
+	serv services.ProcessService
 }
 
-func NewController() HandlerManager {
+func NewController(repo interfaces.ProcessRepository) HandlerManager {
 	return HandlerManager{
-		tjalRepo: infra.NewTJALFirstRepository(datasources.TJAlagoasDatasource{}),
+		services.NewProcessService(repo),
 	}
 }
 
-// FirstInstanceHandler godoc
+// AlagoasHandler godoc
 //
 //	@Summary		Search process number
 //	@Description	Receive a list of params and then search for the process
@@ -27,14 +26,18 @@ func NewController() HandlerManager {
 //	@ID				first-instance
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{object}	entities.JudicialProcess
-//	@Router			/v1/first-instance [get]
-func (ctrl HandlerManager) FirstInstanceHandler(ctx *fiber.Ctx) error {
-	result, err := ctrl.tjalRepo.FindFirstInstance(entities.CNJ{})
+//	@Success		200	{object}	models.JudicialProcessDTO
+//	@Router			/v1/alagoas/:processNumber [get]
+func (ctrl HandlerManager) AlagoasHandler(ctx *fiber.Ctx) error {
+	processNumber := ctx.Query("processNumber")
+	if processNumber == "" {
+		return ctx.Status(fiber.StatusPreconditionRequired).JSON(fiber.Map{"error": "you must pass processNumber query params"})
+	}
+	result, err := ctrl.serv.LoadProcess(entities.NewCNJ(processNumber))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).
 			JSON(fiber.Map{"error": err.Error()})
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(result)
+	return ctx.Status(fiber.StatusOK).JSON(convertEntityToResponse(result.First))
 }
