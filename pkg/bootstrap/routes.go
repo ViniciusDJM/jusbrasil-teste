@@ -9,9 +9,9 @@ import (
 )
 
 func registerRoutes(router fiber.Router) {
-	ctrl := api.NewController(injectRepo())
-	router.Get("/alagoas", ctrl.AlagoasHandler)
-	router.Post("/alagoas", ctrl.AlagoasBodyHandler)
+	ctrl := api.NewController(injectRepo(), injectRepo())
+	router.Get("/search", ctrl.SearchHandler)
+	router.Post("/search", ctrl.SearchBodyHandler)
 }
 
 func injectRepo() interfaces.ProcessRepository {

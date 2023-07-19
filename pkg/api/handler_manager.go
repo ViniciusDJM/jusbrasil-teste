@@ -13,13 +13,13 @@ type HandlerManager struct {
 	serv services.ProcessService
 }
 
-func NewController(repo interfaces.ProcessRepository) HandlerManager {
+func NewController(alRepo, ceRepo interfaces.ProcessRepository) HandlerManager {
 	return HandlerManager{
-		services.NewProcessService(repo),
+		services.NewProcessService(alRepo, ceRepo),
 	}
 }
 
-// AlagoasHandler godoc
+// SearchHandler godoc
 //
 //	@Summary		Search process number
 //	@Description	Receive a list of params and then search for the process
@@ -29,8 +29,8 @@ func NewController(repo interfaces.ProcessRepository) HandlerManager {
 //	@Produce		json
 //	@Param			processNumber	query		string	false	"processNumber that will be searched"
 //	@Success		200				{object}	models.ProcessDataResponse
-//	@Router			/v1/alagoas [get]
-func (ctrl HandlerManager) AlagoasHandler(ctx *fiber.Ctx) error {
+//	@Router			/v1/search [get]
+func (ctrl HandlerManager) SearchHandler(ctx *fiber.Ctx) error {
 	formInput := models.SearchProcessForm{Number: ctx.Query("processNumber")}
 	_ = ctx.BodyParser(&formInput)
 	if formInput.Number == "" {
@@ -47,7 +47,7 @@ func (ctrl HandlerManager) AlagoasHandler(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
 
-// AlagoasBodyHandler godoc
+// SearchBodyHandler godoc
 //
 //	@Summary		Search process number
 //	@Description	Receive a list of params and then search for the process
@@ -57,7 +57,7 @@ func (ctrl HandlerManager) AlagoasHandler(ctx *fiber.Ctx) error {
 //	@Produce		json
 //	@Param			data	body		models.SearchProcessForm	false	"data that will be searched"
 //	@Success		200		{object}	models.ProcessDataResponse
-//	@Router			/v1/alagoas [post]
-func (ctrl HandlerManager) AlagoasBodyHandler(ctx *fiber.Ctx) error {
-	return ctrl.AlagoasHandler(ctx)
+//	@Router			/v1/search [post]
+func (ctrl HandlerManager) SearchBodyHandler(ctx *fiber.Ctx) error {
+	return ctrl.SearchHandler(ctx)
 }
