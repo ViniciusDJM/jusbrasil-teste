@@ -100,8 +100,15 @@ func (repo TJALSecondRepository) parseModalRadio(
 func (repo TJALSecondRepository) FindSecondInstance(
 	cnj entities.CNJ,
 ) (result entities.JudicialProcess, err error) {
-	var body []byte
-	if body, err = repo.datasource.SearchSecondInstance(datasources.SearchFilter{}); err != nil {
+	var (
+		body   []byte
+		filter = datasources.SearchFilter{
+			ProcessNumber:      cnj.String(),
+			UnifiedYearNumber:  cnj.YearNumber(),
+			UnifiedCourtNumber: cnj.CourtNumber(),
+		}
+	)
+	if body, err = repo.datasource.SearchSecondInstance(filter); err != nil {
 		return
 	}
 
@@ -114,7 +121,7 @@ func (repo TJALSecondRepository) FindSecondInstance(
 	modalRadioButtonSelector := htmlDocument.Find("#modalIncidentes")
 	processCode := repo.parseModalRadio(modalRadioButtonSelector)
 
-	filter := datasources.SearchFilter{ProcessCode: processCode}
+	filter = datasources.SearchFilter{ProcessCode: processCode}
 	if body, err = repo.datasource.SearchSecondInstance(filter); err != nil {
 		return
 	}
