@@ -9,29 +9,36 @@ func TestNewCNJ(t *testing.T) {
 		input    string
 		expected CNJ
 	}{
-		{"1234567-89.2021.8.01.0001", CNJ{year: "2021", segment: JusticaEstadualJuizados, court: "8", sequential: "0001"}},
-		{"9876543-21.2022.3.02.1234", CNJ{year: "2022", segment: JusticaTrabalho, court: "3", sequential: "1234"}},
-		{"5555555-01.2023.7.04.5678", CNJ{year: "2023", segment: JusticaEstadual, court: "7", sequential: "5678"}},
-		// Adicione mais casos de teste conforme necessário
+		{"1234567-89.2021.8.01.0001", CNJ{number: "1234567-89.2021.8.01.0001", year: "2021", segment: JusticaFederalJuizados, court: "01", noticeOrderNumber: "1234567", sourceUnitID: "0001", verifiers: [2]byte{'8', '9'}}},
+		{"9876543-21.2022.3.02.1234", CNJ{number: "9876543-21.2022.3.02.1234", year: "2022", segment: JusticaTrabalho, court: "02", noticeOrderNumber: "9876543", sourceUnitID: "1234", verifiers: [2]byte{'2', '1'}}},
+		{"5555555-01.2023.7.04.5678", CNJ{number: "5555555-01.2023.7.04.5678", year: "2023", segment: JusticaEstadualJuizados, court: "04", noticeOrderNumber: "5555555", sourceUnitID: "5678", verifiers: [2]byte{'0', '1'}}},
 	}
 
 	for _, test := range tests {
 		processo := NewCNJ(test.input)
 
 		if processo.year != test.expected.year {
-			t.Errorf("Ano incorreto. Esperado: %s, Obtido: %s", test.expected.year, processo.year)
+			t.Errorf("Incorrect year. Expected: %s, Got: %s", test.expected.year, processo.year)
 		}
 
 		if processo.segment != test.expected.segment {
-			t.Errorf("Segmento incorreto. Esperado: %v, Obtido: %v", test.expected.segment, processo.segment)
+			t.Errorf("Incorrect segment. Expected: %v, Got: %v", test.expected.segment, processo.segment)
 		}
 
 		if processo.court != test.expected.court {
-			t.Errorf("Tribunal incorreto. Esperado: %s, Obtido: %s", test.expected.court, processo.court)
+			t.Errorf("Incorrect court. Expected: %s, Got: %s", test.expected.court, processo.court)
 		}
 
-		if processo.sequential != test.expected.sequential {
-			t.Errorf("Número Sequencial incorreto. Esperado: %s, Obtido: %s", test.expected.sequential, processo.sequential)
+		if processo.noticeOrderNumber != test.expected.noticeOrderNumber {
+			t.Errorf("Incorrect notice order number. Expected: %s, Got: %s", test.expected.noticeOrderNumber, processo.noticeOrderNumber)
+		}
+
+		if processo.sourceUnitID != test.expected.sourceUnitID {
+			t.Errorf("Incorrect source unit ID. Expected: %s, Got: %s", test.expected.sourceUnitID, processo.sourceUnitID)
+		}
+
+		if processo.verifiers != test.expected.verifiers {
+			t.Errorf("Incorrect verifiers. Expected: %v, Got: %v", test.expected.verifiers, processo.verifiers)
 		}
 	}
 }
