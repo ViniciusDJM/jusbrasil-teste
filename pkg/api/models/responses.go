@@ -7,11 +7,14 @@ type ProcessPeopleDTO struct {
 	IsLawyer bool   `json:"is_lawyer"`
 }
 type ProcessPartsDTO struct {
-	Appellant, Appellee, Author, Defendant []ProcessPeopleDTO
+	Appellant []ProcessPeopleDTO `json:"appellant,omitempty"`
+	Appellee  []ProcessPeopleDTO `json:"appellee,omitempty"`
+	Author    []ProcessPeopleDTO `json:"author,omitempty"`
+	Defendant []ProcessPeopleDTO `json:"defendant,omitempty"`
 }
 type MovementDTO struct {
-	Date        time.Time `json:"date"`
-	Description string    `json:"description"`
+	Date        string `json:"date"`
+	Description string `json:"description"`
 }
 
 type JudicialProcessDTO struct {
@@ -23,4 +26,9 @@ type JudicialProcessDTO struct {
 	ActionValue      float64         `json:"action_value"`
 	ProcessParts     ProcessPartsDTO `json:"process_parts"`
 	MovementsList    []MovementDTO   `json:"movements_list"`
+}
+
+type ProcessDataResponse struct {
+	FirstInstance  *JudicialProcessDTO `json:"first_instance,omitempty"`
+	SecondInstance *JudicialProcessDTO `json:"second_instance,omitempty"`
 }

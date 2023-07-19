@@ -6,6 +6,7 @@ import (
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/domain/interfaces"
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/domain/services"
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/entities"
+	"github.com/ViniciusDJM/jusbrasil-teste/pkg/api/models"
 )
 
 type HandlerManager struct {
@@ -23,21 +24,40 @@ func NewController(repo interfaces.ProcessRepository) HandlerManager {
 //	@Summary		Search process number
 //	@Description	Receive a list of params and then search for the process
 //	@Tags			Judicial Process
-//	@ID				first-instance
+//	@ID				search-process
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{object}	models.JudicialProcessDTO
-//	@Router			/v1/alagoas/:processNumber [get]
+//	@Param			processNumber	query		string	false	"processNumber that will be searched"
+//	@Success		200				{object}	models.ProcessDataResponse
+//	@Router			/v1/alagoas [get]
 func (ctrl HandlerManager) AlagoasHandler(ctx *fiber.Ctx) error {
-	processNumber := ctx.Query("processNumber")
-	if processNumber == "" {
+	formInput := models.SearchProcessForm{Number: ctx.Query("processNumber")}
+	_ = ctx.BodyParser(&formInput)
+	if formInput.Number == "" {
 		return ctx.Status(fiber.StatusPreconditionRequired).JSON(fiber.Map{"error": "you must pass processNumber query params"})
 	}
-	result, err := ctrl.serv.LoadProcess(entities.NewCNJ(processNumber))
+	result, err := ctrl.serv.LoadProcess(entities.NewCNJ(formInput.Number))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).
 			JSON(fiber.Map{"error": err.Error()})
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(convertEntityToResponse(result.First))
+	response := models.ProcessDataResponse{FirstInstance: convertEntityToResponse(result.First), SecondInstance: convertEntityToResponse(result.Second)}
+
+	return ctx.Status(fiber.StatusOK).JSON(response)
+}
+
+// AlagoasBodyHandler godoc
+//
+//	@Summary		Search process number
+//	@Description	Receive a list of params and then search for the process
+//	@Tags			Judicial Process
+//	@ID				search-process-post
+//	@Accept			json
+//	@Produce		json
+//	@Param			data	body		models.SearchProcessForm	false	"data that will be searched"
+//	@Success		200		{object}	models.ProcessDataResponse
+//	@Router			/v1/alagoas [post]
+func (ctrl HandlerManager) AlagoasBodyHandler(ctx *fiber.Ctx) error {
+	return ctrl.AlagoasHandler(ctx)
 }

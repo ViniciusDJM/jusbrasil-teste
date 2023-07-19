@@ -11,6 +11,7 @@ import (
 func registerRoutes(router fiber.Router) {
 	ctrl := api.NewController(injectRepo())
 	router.Get("/alagoas", ctrl.AlagoasHandler)
+	router.Post("/alagoas", ctrl.AlagoasBodyHandler)
 }
 
 func injectRepo() interfaces.ProcessRepository {
