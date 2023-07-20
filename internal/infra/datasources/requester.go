@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+// checkHTMLContentType checks if the content type of the HTTP response is "text/html".
 func checkHTMLContentType(res *http.Response, body []byte) (err error) {
 	contextType := res.Header.Get("Context-Type")
 	contentA, _, _ := strings.Cut(contextType, ";")
@@ -20,6 +21,7 @@ func checkHTMLContentType(res *http.Response, body []byte) (err error) {
 	return
 }
 
+// checkStatus checks if the HTTP response status is one of the specified valid statuses.
 func checkStatus(status int, oneOf ...int) (err error) {
 	for _, toCheck := range oneOf {
 		if status == toCheck {
@@ -31,6 +33,7 @@ func checkStatus(status int, oneOf ...int) (err error) {
 	return
 }
 
+// mountRequest creates an HTTP request based on the given URL, method, and cookie.
 func mountRequest(url, method, cookie string) (req *http.Request, err error) {
 	req, err = http.NewRequest(method, url, nil)
 	if cookie != "" {
@@ -40,6 +43,7 @@ func mountRequest(url, method, cookie string) (req *http.Request, err error) {
 	return
 }
 
+// doRequest performs an HTTP request using the provided request and returns the response body.
 func doRequest(req *http.Request) (respBody []byte, err error) {
 	var res *http.Response
 	if res, err = http.DefaultClient.Do(req); err != nil {

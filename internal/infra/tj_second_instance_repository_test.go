@@ -29,14 +29,15 @@ var (
 )
 
 type TestCaseSecondInstance struct {
-	name             string
-	input            string
-	processCode      string
-	searchMockedBody []byte
-	showMockedBody   []byte
-	expected         entities.JudicialProcess
+	name             string                   // Test case name
+	input            string                   // Input CNJ (National Council of Justice) number
+	processCode      string                   // Process code to simulate a second instance
+	searchMockedBody []byte                   // Mocked response body for the search request
+	showMockedBody   []byte                   // Mocked response body for the show request
+	expected         entities.JudicialProcess // Expected result of the test case
 }
 
+// Run is a function that runs a single second instance test case
 func (tcase TestCaseSecondInstance) Run(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	datasourceMock := mocks.NewMockRequestDatasource(mockCtrl)
@@ -66,6 +67,7 @@ func (tcase TestCaseSecondInstance) Run(t *testing.T) {
 	}
 }
 
+// TestTJRepository_SecondInstance runs the test cases for searching the second instance of a judicial process
 func TestTJRepository_SecondInstance(t *testing.T) {
 	testCaseSecondInstances := [...]TestCaseSecondInstance{
 		{

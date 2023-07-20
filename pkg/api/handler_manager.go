@@ -8,10 +8,12 @@ import (
 	"github.com/ViniciusDJM/jusbrasil-teste/pkg/api/models"
 )
 
+// HandlerManager is a struct that manages the API handlers for the Judicial Process service.
 type HandlerManager struct {
 	serv services.ProcessService
 }
 
+// NewController creates a new HandlerManager with the provided repository factory callback and returns it.
 func NewController(factory services.RepositoryFactoryCallback) HandlerManager {
 	return HandlerManager{
 		services.NewProcessService(factory),

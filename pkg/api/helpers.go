@@ -7,6 +7,8 @@ import (
 	"github.com/ViniciusDJM/jusbrasil-teste/pkg/api/models"
 )
 
+// convertEntityToResponse converts the entities.JudicialProcess to models.JudicialProcessDTO.
+// It maps the fields from the entity to the response DTO.
 func convertEntityToResponse(entity entities.JudicialProcess) (response *models.JudicialProcessDTO) {
 	response = new(models.JudicialProcessDTO)
 	response.ActionValue = entity.ActionValue
@@ -26,6 +28,8 @@ func convertEntityToResponse(entity entities.JudicialProcess) (response *models.
 	return
 }
 
+// parseProcessParts converts the list of entities.ProcessPeople to a list of models.ProcessPeopleDTO.
+// It maps the fields from the entity to the response DTO, setting the "IsLawyer" field based on the "Kind" field.
 func parseProcessParts(peopleList []entities.ProcessPeople) (response []models.ProcessPeopleDTO) {
 	for _, person := range peopleList {
 		response = append(response, models.ProcessPeopleDTO{
@@ -36,6 +40,8 @@ func parseProcessParts(peopleList []entities.ProcessPeople) (response []models.P
 	return
 }
 
+// parseMovimentList converts the list of entities.Movement to a list of models.MovementDTO.
+// It maps the fields from the entity to the response DTO, formatting the date using the "time.DateOnly" format.
 func parseMovimentList(movementList []entities.Movement) (response []models.MovementDTO) {
 	for _, movement := range movementList {
 		response = append(response, models.MovementDTO{

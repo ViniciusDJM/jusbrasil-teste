@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// TestParseDistributionDate is a test function that tests the ParseBRTDateTime function.
 func TestParseDistributionDate(t *testing.T) {
 	testCases := []struct {
 		input  string
@@ -32,13 +33,16 @@ func TestParseDistributionDate(t *testing.T) {
 		},
 	}
 
+	// Loop through each test case and run the test
 	for _, tCase := range testCases {
 		t.Run(tCase.input, func(t *testing.T) {
+			// Call the ParseBRTDateTime function to parse the input string
 			result, err := ParseBRTDateTime(tCase.input)
 			if err != nil {
 				t.Fatal(err)
 			}
 
+			// Check if the parsed time matches the expected result
 			if result != tCase.result {
 				t.Error("Time are not equal")
 			}

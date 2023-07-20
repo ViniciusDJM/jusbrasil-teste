@@ -3,6 +3,7 @@ package datasources
 import "testing"
 
 func TestAddQueryParamsToURL(t *testing.T) {
+	// Test cases with different URLs and query parameters and their expected results.
 	testCases := []struct {
 		URL         string
 		QueryParams map[string]any
@@ -30,8 +31,10 @@ func TestAddQueryParamsToURL(t *testing.T) {
 		},
 	}
 
+	// Loop through the test cases and run the function with each case.
 	for _, tc := range testCases {
 		result := addQueryParamsToURL(tc.URL, tc.QueryParams)
+		// Compare the result with the expected URL and report any mismatch.
 		if result != tc.ExpectedURL {
 			t.Errorf(
 				"URL mismatch for input: %s\nExpected: %s\nGot: %s",

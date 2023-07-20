@@ -9,11 +9,13 @@ import (
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/infra/datasources"
 )
 
+// TJFirstRepository is a struct representing the repository for searching the first instance of a judicial process in the TJ system.
 type TJFirstRepository struct {
 	datasource RequestDatasource
 	commonRepository
 }
 
+// NewTJFirstRepository creates a new instance of the TJFirstRepository.
 func NewTJFirstRepository(datasource RequestDatasource) (newRepo TJFirstRepository) {
 	newRepo.datasource = datasource
 	newRepo.commonRepository.selectors.movement = movementSelectorConfig{
@@ -36,9 +38,8 @@ func NewTJFirstRepository(datasource RequestDatasource) (newRepo TJFirstReposito
 	return
 }
 
-func (repo TJFirstRepository) FindFirstInstance(
-	cnj entities.CNJ,
-) (result entities.JudicialProcess, err error) {
+// FindFirstInstance searches for the first instance of a judicial process using the provided CNJ (National Council of Justice) number.
+func (repo TJFirstRepository) FindFirstInstance(cnj entities.CNJ) (result entities.JudicialProcess, err error) {
 	var (
 		body   []byte
 		filter = datasources.SearchFilter{
@@ -57,6 +58,7 @@ func (repo TJFirstRepository) FindFirstInstance(
 		return
 	}
 
+	// Extract main process data
 	mainProcessDataSelector := htmlDocument.Find("#containerDadosPrincipaisProcesso")
 	if mainProcessDataSelector != nil {
 		result.Class = repo.findProcessClass(mainProcessDataSelector)
@@ -64,11 +66,14 @@ func (repo TJFirstRepository) FindFirstInstance(
 		result.Judge = repo.findProcessJudge(mainProcessDataSelector)
 	}
 
+	// Extract additional details data
 	moreDetailsDataSelector := htmlDocument.Find("#maisDetalhes")
 	if moreDetailsDataSelector != nil {
 		repo.extractMoreDetails(moreDetailsDataSelector, &result)
 		result.Area = repo.findProcessArea(moreDetailsDataSelector)
 	}
+
+	// Extract process parts data
 	{
 		processPartsDataSelector := htmlDocument.Find("#tablePartesPrincipais")
 		if processPartsDataSelector != nil {
@@ -81,6 +86,7 @@ func (repo TJFirstRepository) FindFirstInstance(
 		}
 	}
 
+	// Extract movements data
 	{
 		movementsDataSelector := htmlDocument.Find("#tabelaUltimasMovimentacoes")
 		if movementsDataSelector != nil {
@@ -89,10 +95,7 @@ func (repo TJFirstRepository) FindFirstInstance(
 
 		movementsDataSelector = htmlDocument.Find("#tabelaTodasMovimentacoes")
 		if movementsDataSelector != nil {
-			result.MovementsList = append(
-				result.MovementsList,
-				repo.parseMovementTable(movementsDataSelector)...,
-			)
+			result.MovementsList = append(result.MovementsList, repo.parseMovementTable(movementsDataSelector)...)
 		}
 	}
 

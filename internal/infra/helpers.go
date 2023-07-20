@@ -18,6 +18,7 @@ type RequestDatasource interface {
 	SearchSecondInstance(filter datasources.SearchFilter) ([]byte, error)
 }
 
+// NodeToStringSlice converts an HTML node and its children to a string.
 func NodeToStringSlice(originalNode *html.Node) (result string) {
 	var builder strings.Builder
 	for node := originalNode; node != nil; node = node.NextSibling {
@@ -34,6 +35,7 @@ func NodeToStringSlice(originalNode *html.Node) (result string) {
 	return builder.String()
 }
 
+// insertProcessPart is a helper function to insert process participants based on the label.
 func insertProcessPart(label string, toInsert entities.ProcessPeople, process *entities.ProcessParts) {
 	switch {
 	case slices.Contains([]string{"autor", "autora"}, label):

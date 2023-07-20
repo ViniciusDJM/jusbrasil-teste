@@ -18,13 +18,15 @@ var alFirstInstanceSearchBody []byte
 //go:embed test/fixtures/tjce_first_instance.testhtml
 var ceFirstInstanceSearchBody []byte
 
+// TestCase is a struct representing a test case for the FindFirstInstance function.
 type TestCase struct {
-	name       string
-	input      string
-	mockedBody []byte
-	expected   entities.JudicialProcess
+	name       string                   // Name of the test case.
+	input      string                   // Input process number.
+	mockedBody []byte                   // Mocked response body.
+	expected   entities.JudicialProcess // Expected result.
 }
 
+// Run executes the test case.
 func (tcase TestCase) Run(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	datasourceMock := mocks.NewMockRequestDatasource(mockCtrl)
@@ -47,6 +49,7 @@ func (tcase TestCase) Run(t *testing.T) {
 	}
 }
 
+// TestTJRepository_FirstInstance executes the test cases for the FindFirstInstance function.
 func TestTJRepository_FirstInstance(t *testing.T) {
 	testCases := [...]TestCase{
 		{

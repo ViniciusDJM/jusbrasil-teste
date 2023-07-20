@@ -8,12 +8,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// registerRoutes registers the routes for the API.
 func registerRoutes(router fiber.Router) {
 	ctrl := api.NewController(injectRepo)
 	router.Get("/search", ctrl.SearchHandler)
 	router.Post("/search", ctrl.SearchBodyHandler)
 }
 
+// injectRepo creates and injects the appropriate repository based on the court number.
 func injectRepo(courtNumber string) interfaces.ProcessRepository {
 	var dSource infra.RequestDatasource = datasources.TJAlagoasDatasource{}
 	if courtNumber == "06" {

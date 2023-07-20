@@ -15,18 +15,22 @@ func ParseBRTDate(element string) (time.Time, error) {
 	return time.Parse(FormatDateBR, element)
 }
 
+// ParseBRTDateTime parses a date-time string in Brazilian format and returns a time.Time value.
 func ParseBRTDateTime(element string) (time.Time, error) {
+	// Extract the date and time part from the input string
 	dateHourPart, _, _ := strings.Cut(element, " - ")
 	delimiters := [...]rune{'/', '/', ' ', ':'}
 
-	// 02/05/2018 às 19:01
 	var (
 		currentNumberSize uint8
 		delimiterIndex    uint8
 		builder           strings.Builder
 	)
+	// Iterate through the characters in the dateHourPart
 	for _, character := range dateHourPart {
+		// Check if the character is a digit (0-9)
 		if character >= '0' && character <= '9' {
+			// Handle delimiters based on the position of the digit
 			if delimiterIndex <= 1 && currentNumberSize >= 2 {
 				builder.WriteRune(delimiters[delimiterIndex])
 				currentNumberSize = 0
@@ -43,10 +47,12 @@ func ParseBRTDateTime(element string) (time.Time, error) {
 				}
 			}
 
+			// Append the digit to the builder
 			builder.WriteRune(character)
 			currentNumberSize += 1
 		}
 	}
 
+	// Parse the formatted date-time string using the defined format
 	return time.Parse(FormatDateTimeBR, builder.String())
 }

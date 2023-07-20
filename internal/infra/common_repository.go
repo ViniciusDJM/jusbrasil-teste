@@ -38,6 +38,7 @@ func (repo commonRepository) findProcessClass(selector *goquery.Selection) strin
 	return ""
 }
 
+// Find the process subject from the provided HTML selection.
 func (repo commonRepository) findProcessSubject(selector *goquery.Selection) string {
 	if subjectSelector := selector.Find(repo.selectors.mainData.subject); subjectSelector != nil {
 		return strings.TrimSpace(subjectSelector.Text())
@@ -45,6 +46,7 @@ func (repo commonRepository) findProcessSubject(selector *goquery.Selection) str
 	return ""
 }
 
+// Find the process judge from the provided HTML selection.
 func (repo commonRepository) findProcessJudge(selector *goquery.Selection) string {
 	if judgeSelector := selector.Find(repo.selectors.mainData.judge); judgeSelector != nil {
 		return strings.TrimSpace(judgeSelector.Text())
@@ -52,6 +54,7 @@ func (repo commonRepository) findProcessJudge(selector *goquery.Selection) strin
 	return ""
 }
 
+// Find the process area from the provided HTML selection.
 func (repo commonRepository) findProcessArea(selector *goquery.Selection) string {
 	if areaSelector := selector.Find(repo.selectors.mainData.area); areaSelector != nil {
 		return strings.TrimSpace(areaSelector.Text())
@@ -59,6 +62,7 @@ func (repo commonRepository) findProcessArea(selector *goquery.Selection) string
 	return ""
 }
 
+// Parse the distribution date from the provided HTML element.
 func (repo commonRepository) parseDistributionDate(element *goquery.Selection) (time.Time, error) {
 	if element == nil {
 		return time.Time{}, nil
@@ -67,6 +71,7 @@ func (repo commonRepository) parseDistributionDate(element *goquery.Selection) (
 	return utils.ParseBRTDateTime(element.Text())
 }
 
+// Extract more details from the main data selection and update the result JudicialProcess entity.
 func (repo commonRepository) extractMoreDetails(
 	selector *goquery.Selection,
 	result *entities.JudicialProcess,
@@ -80,6 +85,7 @@ func (repo commonRepository) extractMoreDetails(
 	}
 }
 
+// Parse the movement table and return the extracted movements.
 func (repo commonRepository) parseMovementTable(
 	selector *goquery.Selection,
 ) (result []entities.Movement) {
@@ -106,6 +112,7 @@ func (repo commonRepository) parseMovementTable(
 	return
 }
 
+// Parse the process parts table and return the extracted data as a map.
 func (repo commonRepository) parseTableProcessParts(
 	selector *goquery.Selection,
 ) (result map[string]string) {
@@ -129,6 +136,7 @@ func (repo commonRepository) parseTableProcessParts(
 	return
 }
 
+// Parse the process parts from the provided HTML selection and update the process entity.
 func (repo commonRepository) parseProcessParts(
 	selector *goquery.Selection,
 	process *entities.ProcessParts,

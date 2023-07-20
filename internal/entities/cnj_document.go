@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// CNJ is the process number that follow the following pattern: NNNNNNN-DD.AAAA.J.TR.OOOO
+// CNJ is the process number that follows the pattern: NNNNNNN-DD.AAAA.J.TR.OOOO
 type CNJ struct {
 	number string
 	// year AAAA
@@ -22,6 +22,7 @@ type CNJ struct {
 	verifiers [2]byte
 }
 
+// Segmento is an enumeration representing different segments of the judiciary.
 type Segmento int
 
 const (
@@ -35,7 +36,11 @@ const (
 	JusticaFederalJuizados  Segmento = 8
 )
 
+// NewCNJ creates and returns a new CNJ instance from the given number string.
 func NewCNJ(number string) CNJ {
+	// The function parses the input number string and initializes the CNJ structure accordingly.
+	// It splits the input into fragments and assigns them to the corresponding fields of the CNJ structure.
+
 	var fragmentArray = [6]string{"0000000", "00", "0000", "0", "00", "0000"}
 	var builder strings.Builder
 	var fragmentIndex uint8
@@ -64,14 +69,17 @@ func NewCNJ(number string) CNJ {
 	return processo
 }
 
+// String returns the CNJ number as a string.
 func (cnj CNJ) String() string {
 	return cnj.number
 }
 
+// CourtNumber returns the court number from the CNJ.
 func (cnj CNJ) CourtNumber() string {
 	return cnj.court
 }
 
+// YearNumber returns the year from the CNJ.
 func (cnj CNJ) YearNumber() string {
 	return cnj.year
 }
