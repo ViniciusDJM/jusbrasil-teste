@@ -82,7 +82,7 @@ func TestTJRepository_SecondInstance(t *testing.T) {
 			processCode:      "P000020AM0000",
 			searchMockedBody: ceSecondInstanceSearchBody,
 			showMockedBody:   ceSecondInstanceShowBody,
-			expected:         fixtures.AlagoasSecondInstance,
+			expected:         fixtures.CearaSecondInstance,
 		},
 	}
 	for _, tc := range testCaseSecondInstances {
