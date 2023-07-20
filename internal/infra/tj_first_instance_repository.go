@@ -11,12 +11,12 @@ import (
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/infra/datasources"
 )
 
-type TJALFirstRepository struct {
+type TJFirstRepository struct {
 	datasource RequestDatasource
 	commonRepository
 }
 
-func NewTJALFirstRepository(datasource RequestDatasource) (newRepo TJALFirstRepository) {
+func NewTJFirstRepository(datasource RequestDatasource) (newRepo TJFirstRepository) {
 	newRepo.datasource = datasource
 	newRepo.commonRepository.selectors.movement = movementSelectorConfig{
 		date:        ".dataMovimentacao",
@@ -38,7 +38,7 @@ func NewTJALFirstRepository(datasource RequestDatasource) (newRepo TJALFirstRepo
 	return
 }
 
-func (repo TJALFirstRepository) FindFirstInstance(
+func (repo TJFirstRepository) FindFirstInstance(
 	cnj entities.CNJ,
 ) (result entities.JudicialProcess, err error) {
 	var (
@@ -101,7 +101,7 @@ func (repo TJALFirstRepository) FindFirstInstance(
 	return
 }
 
-func (repo TJALFirstRepository) parseProcessParts(
+func (repo TJFirstRepository) parseProcessParts(
 	selector *goquery.Selection,
 	process *entities.ProcessParts,
 ) {

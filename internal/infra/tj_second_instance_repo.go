@@ -11,12 +11,12 @@ import (
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/infra/datasources"
 )
 
-type TJALSecondRepository struct {
+type TJSecondRepository struct {
 	datasource RequestDatasource
 	commonRepository
 }
 
-func NewTJALSecondRepository(datasource RequestDatasource) (newRepo TJALSecondRepository) {
+func NewTJSecondRepository(datasource RequestDatasource) (newRepo TJSecondRepository) {
 	newRepo.datasource = datasource
 	newRepo.commonRepository.selectors.movement = movementSelectorConfig{
 		date:        ".dataMovimentacaoProcesso",
@@ -38,7 +38,7 @@ func NewTJALSecondRepository(datasource RequestDatasource) (newRepo TJALSecondRe
 	return
 }
 
-func (repo TJALSecondRepository) executeParseSecond(
+func (repo TJSecondRepository) executeParseSecond(
 	htmlDocument *goquery.Document,
 ) (result entities.JudicialProcess, err error) {
 	mainProcessDataSelector := htmlDocument.Find(".unj-entity-header__summary > div:nth-child(1)")
@@ -84,7 +84,7 @@ func (repo TJALSecondRepository) executeParseSecond(
 	return
 }
 
-func (repo TJALSecondRepository) parseModalRadio(
+func (repo TJSecondRepository) parseModalRadio(
 	selector *goquery.Selection,
 ) (selectedCode string) {
 	choiceDataSelector := selector.Find(".modal__process-choice")
@@ -97,7 +97,7 @@ func (repo TJALSecondRepository) parseModalRadio(
 	return
 }
 
-func (repo TJALSecondRepository) FindSecondInstance(
+func (repo TJSecondRepository) FindSecondInstance(
 	cnj entities.CNJ,
 ) (result entities.JudicialProcess, err error) {
 	var (
@@ -135,7 +135,7 @@ func (repo TJALSecondRepository) FindSecondInstance(
 	return
 }
 
-func (repo TJALSecondRepository) parseProcessParts(
+func (repo TJSecondRepository) parseProcessParts(
 	selector *goquery.Selection,
 	process *entities.ProcessParts,
 ) {

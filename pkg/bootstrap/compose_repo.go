@@ -5,6 +5,6 @@ import (
 )
 
 type composedRepo struct {
-	infra.TJALSecondRepository
-	infra.TJALFirstRepository
+	infra.TJSecondRepository
+	infra.TJFirstRepository
 }

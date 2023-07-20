@@ -16,7 +16,7 @@ func registerRoutes(router fiber.Router) {
 
 func injectRepo() interfaces.ProcessRepository {
 	return composedRepo{
-		TJALFirstRepository:  infra.NewTJALFirstRepository(datasources.TJAlagoasDatasource{}),
-		TJALSecondRepository: infra.NewTJALSecondRepository(datasources.TJAlagoasDatasource{}),
+		TJFirstRepository:  infra.NewTJFirstRepository(datasources.TJAlagoasDatasource{}),
+		TJSecondRepository: infra.NewTJSecondRepository(datasources.TJAlagoasDatasource{}),
 	}
 }
