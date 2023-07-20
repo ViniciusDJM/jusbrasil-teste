@@ -1,0 +1,51 @@
+name: Publish docker-image
+
+on:
+  push:
+    # Publish `$default-branch` as Docker `latest` image.
+    branches:
+      - $default-branch
+
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ViniciusDJM/jusbrasil-teste
+
+jobs:
+  # Push image to GitHub Packages.
+  # See also https://docs.docker.com/docker-hub/builds/
+  push:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1.14.1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v3.7.0
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v2.10.0
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
