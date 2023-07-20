@@ -15,10 +15,8 @@ type (
 		Kind PersonKind
 	}
 	ProcessParts struct {
-		Appellant []ProcessPeople
-		Appellee  []ProcessPeople
-		Author    []ProcessPeople
-		Defendant []ProcessPeople
+		Appellant, Appellee, Author, Defendant []ProcessPeople
+		Victim, Third, Witness                 []string
 	}
 	Movement struct {
 		Date        time.Time

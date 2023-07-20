@@ -3,7 +3,6 @@ package api
 import (
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/ViniciusDJM/jusbrasil-teste/internal/domain/interfaces"
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/domain/services"
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/entities"
 	"github.com/ViniciusDJM/jusbrasil-teste/pkg/api/models"
@@ -13,9 +12,9 @@ type HandlerManager struct {
 	serv services.ProcessService
 }
 
-func NewController(alRepo, ceRepo interfaces.ProcessRepository) HandlerManager {
+func NewController(factory services.RepositoryFactoryCallback) HandlerManager {
 	return HandlerManager{
-		services.NewProcessService(alRepo, ceRepo),
+		services.NewProcessService(factory),
 	}
 }
 

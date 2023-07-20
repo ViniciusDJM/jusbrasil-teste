@@ -128,3 +128,34 @@ func (repo commonRepository) parseTableProcessParts(
 
 	return
 }
+
+func (repo commonRepository) parseProcessParts(
+	selector *goquery.Selection,
+	process *entities.ProcessParts,
+) {
+	tableBody := selector.ChildrenFiltered("tbody")
+	if tableBody == nil {
+		return
+	}
+
+	tableParts := tableBody.ChildrenFiltered("tr")
+	partsMap := repo.parseTableProcessParts(tableParts)
+	for label, content := range partsMap {
+		nameList := strings.Split(content, "\n")
+		for _, name := range nameList {
+			kind := entities.PersonNormal
+			if _, cutName, isLawyer := strings.Cut(name, "Advogado:"); isLawyer {
+				kind = entities.PersonLawyer
+				name = cutName
+			}
+			if _, cutName, isLawyer := strings.Cut(name, "Advogada:"); isLawyer {
+				kind = entities.PersonLawyer
+				name = cutName
+			}
+
+			label = strings.Replace(strings.ToLower(label), ":", "", 1)
+			toInsert := entities.ProcessPeople{Name: strings.TrimSpace(name), Kind: kind}
+			insertProcessPart(label, toInsert, process)
+		}
+	}
+}

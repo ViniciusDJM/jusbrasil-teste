@@ -13,11 +13,19 @@ import (
 )
 
 var (
-	//go:embed test/fixtures/tjal_second_instance_list.html
+	//go:embed test/fixtures/tjal_second_instance_list.testhtml
 	alSecondInstanceSearchBody []byte
 
-	//go:embed test/fixtures/tjal_second_instance.html
+	//go:embed test/fixtures/tjal_second_instance.testhtml
 	alSecondInstanceShowBody []byte
+)
+
+var (
+	//go:embed test/fixtures/tjce_second_instance_list.testhtml
+	ceSecondInstanceSearchBody []byte
+
+	//go:embed test/fixtures/tjce_second_instance.testhtml
+	ceSecondInstanceShowBody []byte
 )
 
 type TestCaseSecondInstance struct {
@@ -71,9 +79,9 @@ func TestTJRepository_SecondInstance(t *testing.T) {
 		{
 			name:             "Ceara",
 			input:            "0070337-91.2008.8.06.0001",
-			processCode:      "P00006BXP0000",
-			searchMockedBody: alSecondInstanceSearchBody,
-			showMockedBody:   alSecondInstanceShowBody,
+			processCode:      "P000020AM0000",
+			searchMockedBody: ceSecondInstanceSearchBody,
+			showMockedBody:   ceSecondInstanceShowBody,
 			expected:         fixtures.AlagoasSecondInstance,
 		},
 	}

@@ -9,14 +9,18 @@ import (
 )
 
 func registerRoutes(router fiber.Router) {
-	ctrl := api.NewController(injectRepo(), injectRepo())
+	ctrl := api.NewController(injectRepo)
 	router.Get("/search", ctrl.SearchHandler)
 	router.Post("/search", ctrl.SearchBodyHandler)
 }
 
-func injectRepo() interfaces.ProcessRepository {
+func injectRepo(courtNumber string) interfaces.ProcessRepository {
+	var dSource infra.RequestDatasource = datasources.TJAlagoasDatasource{}
+	if courtNumber == "06" {
+		dSource = datasources.TJCearaDatasource{}
+	}
 	return composedRepo{
-		TJFirstRepository:  infra.NewTJFirstRepository(datasources.TJAlagoasDatasource{}),
-		TJSecondRepository: infra.NewTJSecondRepository(datasources.TJAlagoasDatasource{}),
+		TJFirstRepository:  infra.NewTJFirstRepository(dSource),
+		TJSecondRepository: infra.NewTJSecondRepository(dSource),
 	}
 }

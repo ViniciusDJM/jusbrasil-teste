@@ -12,10 +12,10 @@ import (
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/mocks"
 )
 
-//go:embed test/fixtures/tjal_first_instance.html
+//go:embed test/fixtures/tjal_first_instance.testhtml
 var alFirstInstanceSearchBody []byte
 
-//go:embed test/fixtures/tjce_first_instance.html
+//go:embed test/fixtures/tjce_first_instance.testhtml
 var ceFirstInstanceSearchBody []byte
 
 type TestCase struct {
@@ -47,7 +47,7 @@ func (tcase TestCase) Run(t *testing.T) {
 	}
 }
 
-func TestTJALRepository_FirstInstance(t *testing.T) {
+func TestTJRepository_FirstInstance(t *testing.T) {
 	testCases := [...]TestCase{
 		{
 			name:       "Alagoas",

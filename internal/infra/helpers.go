@@ -3,9 +3,11 @@ package infra
 import (
 	"strings"
 
+	"golang.org/x/exp/slices"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
 
+	"github.com/ViniciusDJM/jusbrasil-teste/internal/entities"
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/infra/datasources"
 )
 
@@ -30,4 +32,37 @@ func NodeToStringSlice(originalNode *html.Node) (result string) {
 	}
 
 	return builder.String()
+}
+
+func insertProcessPart(label string, toInsert entities.ProcessPeople, process *entities.ProcessParts) {
+	switch {
+	case slices.Contains([]string{"autor", "autora"}, label):
+		if !slices.Contains(process.Author, toInsert) {
+			process.Author = append(process.Author, toInsert)
+		}
+	case slices.Contains([]string{"ré", "réu"}, label):
+		if !slices.Contains(process.Defendant, toInsert) {
+			process.Defendant = append(process.Defendant, toInsert)
+		}
+	case slices.Contains([]string{"apelante"}, label):
+		if !slices.Contains(process.Appellant, toInsert) {
+			process.Appellant = append(process.Appellant, toInsert)
+		}
+	case slices.Contains([]string{"apelado", "apelada"}, label):
+		if !slices.Contains(process.Appellee, toInsert) {
+			process.Appellee = append(process.Appellee, toInsert)
+		}
+	case slices.Contains([]string{"vítima"}, label):
+		if !slices.Contains(process.Victim, toInsert.Name) {
+			process.Victim = append(process.Victim, toInsert.Name)
+		}
+	case slices.Contains([]string{"terceiro"}, label):
+		if !slices.Contains(process.Third, toInsert.Name) {
+			process.Third = append(process.Third, toInsert.Name)
+		}
+	case slices.Contains([]string{"testemunha"}, label):
+		if !slices.Contains(process.Witness, toInsert.Name) {
+			process.Witness = append(process.Witness, toInsert.Name)
+		}
+	}
 }

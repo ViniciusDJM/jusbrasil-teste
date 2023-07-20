@@ -8,19 +8,19 @@ import (
 	"github.com/ViniciusDJM/jusbrasil-teste/internal/entities"
 )
 
-type ProcessService struct {
-	alRepo, ceRepo interfaces.ProcessRepository
-}
+type (
+	RepositoryFactoryCallback func(courtNumber string) interfaces.ProcessRepository
+	ProcessService            struct {
+		repoFactory RepositoryFactoryCallback
+	}
+)
 
-func NewProcessService(alRepo, ceRepo interfaces.ProcessRepository) ProcessService {
-	return ProcessService{alRepo, ceRepo}
+func NewProcessService(factory RepositoryFactoryCallback) ProcessService {
+	return ProcessService{factory}
 }
 
 func (serv ProcessService) selectProcessRepo(cnj entities.CNJ) interfaces.ProcessRepository {
-	if cnj.CourtNumber() == "02" {
-		return serv.alRepo
-	}
-	return serv.ceRepo
+	return serv.repoFactory(cnj.CourtNumber())
 }
 func (serv ProcessService) LoadProcess(cnj entities.CNJ) (result struct{ First, Second entities.JudicialProcess }, err error) {
 	var (
