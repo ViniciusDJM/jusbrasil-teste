@@ -11,6 +11,9 @@ type ProcessPartsDTO struct {
 	Appellee  []ProcessPeopleDTO `json:"appellee,omitempty"`
 	Author    []ProcessPeopleDTO `json:"author,omitempty"`
 	Defendant []ProcessPeopleDTO `json:"defendant,omitempty"`
+	Victim    []string           `json:"victim,omitempty"`
+	Third     []string           `json:"third,omitempty"`
+	Witness   []string           `json:"Witness,omitempty"`
 }
 type MovementDTO struct {
 	Date        string `json:"date"`

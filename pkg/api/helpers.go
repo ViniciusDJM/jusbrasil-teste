@@ -19,6 +19,9 @@ func convertEntityToResponse(entity entities.JudicialProcess) (response *models.
 	response.ProcessParts.Appellant = parseProcessParts(entity.ProcessParts.Appellant)
 	response.ProcessParts.Appellee = parseProcessParts(entity.ProcessParts.Appellee)
 	response.ProcessParts.Defendant = parseProcessParts(entity.ProcessParts.Defendant)
+	response.ProcessParts.Victim = entity.ProcessParts.Victim
+	response.ProcessParts.Third = entity.ProcessParts.Third
+	response.ProcessParts.Witness = entity.ProcessParts.Witness
 	response.Subject = entity.Subject
 	return
 }
