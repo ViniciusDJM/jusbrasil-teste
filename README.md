@@ -87,6 +87,15 @@ task build
 task clean
 ```
 
+## Executando o projeto
+
+Para executar o projeto basta executar o comando:
+```bash
+go run .
+```
+
+Caso tenha realizado o build do projeto, basta executar o binario resultante. 
+
 ## Documentação da API
 
 A documentação da API está disponível através do Swagger na rota `/api/swagger`. Acesse esta rota em seu navegador para visualizar a documentação detalhada das rotas e parâmetros da API.
@@ -110,7 +119,7 @@ Para fazer uma requisição POST para a rota "/api/search", você precisará env
 Exemplo de requisição POST usando o cURL:
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"data": {"number": "0710802-55.2018.8.02.0001"}}' "http://localhost:8000/api/v1/search"
+curl -X POST -H "Content-Type: application/json" -d '{"number": "0710802-55.2018.8.02.0001"}' "http://localhost:8000/api/v1/search"
 ```
 
 ## Imagem Docker
