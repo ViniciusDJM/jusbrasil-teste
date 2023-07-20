@@ -5,16 +5,10 @@ on:
     branches:
       - main
       - develop
-    paths:
-      - "./**"
-      - ".github/workflows/run-tests.yml"
   pull_request:
     branches:
       - main
       - develop
-    paths:
-      - "./**"
-      - ".github/workflows/run-tests.yml"
 
 jobs:
   tests:
