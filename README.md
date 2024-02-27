@@ -1,6 +1,6 @@
-# Jusbrasil Teste
+# Tribuna
 
-O Jusbrasil Process Finder é um projeto Go que consiste em desenvolver uma API para buscar dados de processos em todos os graus dos Tribunais de Justiça de Alagoas (TJAL) e do Ceará (TJCE). O objetivo é coletar informações sobre os processos, como classe, área, assunto, data de distribuição, juiz, valor da ação, partes do processo e lista das movimentações.
+O Tribuna Process Finder é um projeto Go que consiste em desenvolver uma API para buscar dados de processos em todos os graus dos Tribunais de Justiça de Alagoas (TJAL) e do Ceará (TJCE). O objetivo é coletar informações sobre os processos, como classe, área, assunto, data de distribuição, juiz, valor da ação, partes do processo e lista das movimentações.
 
 ## Pré-requisitos
 
